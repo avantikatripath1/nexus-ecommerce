@@ -9,14 +9,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-            .authorizeHttpRequests()
-            .requestMatchers("/api/auth/**", "/api/products/**").permitAll()
-            .atLeastOneRole("ADMIN", "VENDOR", "CUSTOMER").anyRequest().authenticated()
-            .and()
-            .addFilterBefore(new JwtFilter(), UsernamePasswordAuthenticationFilter.class);
-        return http.build();
-    }
-}
+   @Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+        .csrf().disable()
+        .authorizeHttpRequests(auth -> auth
+            .anyRequest().permitAll()
+        );
+    return http.build();
+    }}
